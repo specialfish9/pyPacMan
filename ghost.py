@@ -7,13 +7,13 @@ class Ghost(Sprite):
 
     STEP = 0.7
     UP = 0
-    DOWN = 1
-    LEFT = 2
+    DOWN = 2
+    LEFT = 1
     RIGHT = 3
 
     def __init__(self, x, y, color):
         self.color = color
-        self.dimension = 20
+        self.dimension = 10
         self.direction = random.randint(0, 3)
         super().__init__(x=x, y=y)
 
@@ -42,7 +42,11 @@ class Ghost(Sprite):
             self.moveLeft()
 
     def changeDirection(self):
-        self.direction = random.randint(0, 3)
+        random.seed()
+        v = self.direction
+        while v % 2 == self.direction % 2:
+            v = random.randint(0, 4)
+        self.direction = v
 
     def checkWalls(self, walls):
         for wall in walls:
