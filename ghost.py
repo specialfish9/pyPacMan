@@ -5,7 +5,7 @@ from sprite import Sprite
 
 class Ghost(Sprite):
 
-    STEP = 0.7
+    STEP = 0.5
     UP = 0
     DOWN = 2
     LEFT = 1

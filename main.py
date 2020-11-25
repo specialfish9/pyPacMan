@@ -4,6 +4,7 @@ import random
 import ui as ui
 from player import Player
 from ghost import Ghost
+from bonus import Bonus
 
 def render_ghosts(ghosts, screen):
     for ghost in ghosts:
@@ -11,7 +12,8 @@ def render_ghosts(ghosts, screen):
 
 def move_ghost(ghosts, walls):
     for ghost in ghosts:
-        ghost.move()
+        for i in range(2):
+            ghost.move()
         ghost.checkWalls(walls)
 
 def check_collision(player, ghosts):
@@ -29,7 +31,7 @@ def create_ghosts(number):
         r = random.randint(0, 255)
         g = random.randint(0, 255)
         b = random.randint(0, 255)
-        ghosts.append(Ghost(250, 250, (r, g, b)))
+        ghosts.append(Ghost(ui.SCREEN_HEIGHT / 2, ui.SCREEN_WIDTH /2, (r, g, b)))
     return ghosts
 
 def check_player_position(walls, player):
@@ -49,12 +51,24 @@ def check_player_position(walls, player):
         if collided:
             player.set
 
+def draw_bonus(bonus, screen):
+    for b in bonus:
+        b.render(screen)
+
+def check_bonus(bonus, player, p):
+    for b in bonus:
+        if b.isCollidedWithSprite(player):
+          p += b.points  
+    print("POINTS: " + str(p))
+
 def main():
     pygame.init()
     screen = ui.init()
     running = True
+    
+    g_points = 0
 
-    player = Player(0, 250)
+    player = Player(ui.SCREEN_HEIGHT / 2, ui.SCREEN_WIDTH / 2)
     #ghosts = [
      #   Ghost(250,250, (255,0,0)),
       #  Ghost(250,250, (0,0,255)),
@@ -64,30 +78,32 @@ def main():
     ghosts = create_ghosts(4)
 
     while running:
+        ui.draw(screen)
+        walls, bonus = ui.render_grid_from_file(screen)
+
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 running = False
         
         keys = pygame.key.get_pressed()
         if keys[pygame.K_LEFT]:
-            player.moveLeft()
+            player.moveLeftSafe(walls)
         elif keys[pygame.K_RIGHT]:
-            player.moveRight()
+            player.moveRightSafe(walls)
         elif keys[pygame.K_UP]:
-            player.moveUp()
+            player.moveUpSafe(walls)
         elif keys[pygame.K_DOWN]:
-            player.moveDown()
+            player.moveDownSafe(walls)
 
-        check_player_position()
-
-        ui.draw(screen)
-        walls = ui.render_grid(screen)
+        draw_bonus(bonus, screen)
         player.render(screen)
         move_ghost(ghosts, walls)
         render_ghosts(ghosts, screen)
+        #check_player_position(player=player, walls=walls)
 
-        if check_collision(player, ghosts):
-            print("collision!!!")
+        #if check_collision(player, ghosts):
+        #    print("collision!!!")
+        check_bonus(bonus, player, g_points)
 
         pygame.display.flip()
 

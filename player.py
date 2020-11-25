@@ -2,7 +2,7 @@ import pygame
 from sprite import Sprite
 
 class Player(Sprite):
-    STEP = 0.5
+    STEP = 1
 
     def __init__(self, x, y):
         self.dimension = 10
@@ -14,7 +14,7 @@ class Player(Sprite):
     def checkWalls(self, walls):
         for wall in walls:
             if self.getRect().colliderect(wall):
-                self.changeDirection()
+                print("wall collided with player")
                 return
 
     def __isLecitMove(self, x, y, walls):
@@ -25,6 +25,18 @@ class Player(Sprite):
         return True
 
     def moveUpSafe(self, walls):
-        if __isLecitMove(0, -STEP, walls):
+        if self.__isLecitMove(0, -(self.STEP), walls):
             self.moveUp()
+
+    def moveDownSafe(self, walls):
+        if self.__isLecitMove(0, self.STEP, walls):
+            self.moveDown()
+
+    def moveLeftSafe(self, walls):
+        if self.__isLecitMove(-(self.STEP), 0, walls):
+            self.moveLeft()
+
+    def moveRightSafe(self, walls):
+        if self.__isLecitMove(self.STEP, 0, walls):
+            self.moveRight()
 
