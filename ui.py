@@ -64,9 +64,7 @@ def render_grid_from_file(screen):
                 r =  pygame.Rect(j * WALL_DIM, i * WALL_DIM, WALL_DIM, WALL_DIM)
                 walls.append(r)
                 pygame.draw.rect(screen, WALL_COLOR,r)
-            if c == '-':
-                bonus.append(Bonus(j*WALL_DIM, i*WALL_DIM))
     f.close()
 
-    return (walls, bonus)
+    return walls 
 

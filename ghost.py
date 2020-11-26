@@ -26,30 +26,46 @@ class Ghost(Sprite):
         self.__direction = direction
 
     def render(self,screen):
-        pygame.draw.circle(screen, self.color, (self.x, self.y), self.dimension)
+        rx = self.x + (self.dimension / 2)
+        ry = self.y + (self.dimension / 2)
+        pygame.draw.circle(screen, self.color, (rx, ry), self.dimension)
 
     def isCollidedWithSprite(self, sprite):
         return self.getRect().colliderect(sprite.getRect())
 
-    def move(self):
+    def move(self, walls):
         if self.direction == Ghost.UP:
-            self.moveUp()
+            if self.__isLecitMove(0, -(self.STEP), walls):
+                self.moveUp()
+            else:
+                self.changeDirection();
         elif self.direction == Ghost.DOWN:
-            self.moveDown()
+            if self.__isLecitMove(0, self.STEP, walls):
+                self.moveDown()
+            else:
+                self.changeDirection();
         elif self.direction == Ghost.RIGHT:
-            self.moveRight()
+            if self.__isLecitMove(self.STEP, 0, walls):
+                self.moveRight()
+            else:
+                self.changeDirection();
         elif self.direction == Ghost.LEFT:
-            self.moveLeft()
+            if self.__isLecitMove(-(self.STEP), 0, walls):
+                self.moveLeft()
+            else:
+                self.changeDirection();
+
 
     def changeDirection(self):
         random.seed()
         v = self.direction
         while v % 2 == self.direction % 2:
-            v = random.randint(0, 4)
+            v = random.randint(0, 3)
         self.direction = v
 
-    def checkWalls(self, walls):
+    def __isLecitMove(self, x, y, walls):
+        r = pygame.Rect(self.x + x, self.y + y, 2*self.dimension,  2*self.dimension);
         for wall in walls:
-            if self.getRect().colliderect(wall):
-                self.changeDirection()
-                return
+            if r.colliderect(wall):
+                return False
+        return True

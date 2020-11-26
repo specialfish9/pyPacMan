@@ -9,11 +9,11 @@ class Bonus(Sprite):
         super().__init__(x, y)
 
     def render(self, screen):
-        pygame.draw.circle(screen, (0,0,0), (self.x, self.y), 15)
+        #pygame.draw.circle(screen, (0,0,0), (self.x, self.y), 15)
         pygame.draw.circle(screen, (255,255,0), (self.x, self.y), self.dimension)
 
     @property
-    def points():
+    def points(self):
         return self.__points
 
     def isCollidedWithSprite(self, sprite):

@@ -9,7 +9,9 @@ class Player(Sprite):
         super().__init__(x, y)
 
     def render(self, screen):
-        pygame.draw.circle(screen, (255,255,0), (self.x, self.y), self.dimension)
+        rx = self.x + (self.dimension / 2)
+        ry = self.y + (self.dimension / 2)
+        pygame.draw.circle(screen, (255,255,0), (rx, ry), self.dimension)
 
     def checkWalls(self, walls):
         for wall in walls:
