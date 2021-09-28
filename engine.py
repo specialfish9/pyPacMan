@@ -12,8 +12,7 @@ def render_ghosts(ghosts, screen):
 
 def move_ghost(ghosts, walls):
     for ghost in ghosts:
-        for i in range(2):
-            ghost.move(walls)
+        ghost.move(walls)
 
 def check_collision(player, ghosts):
     exist = False

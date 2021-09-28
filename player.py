@@ -2,7 +2,7 @@ import pygame
 from sprite import Sprite
 
 class Player(Sprite):
-    STEP = 1
+    STEP = 0.5
 
     def __init__(self, x, y):
         self.dimension = 10
