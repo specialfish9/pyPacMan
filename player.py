@@ -5,7 +5,7 @@ class Player(Sprite):
     STEP = 0.5
 
     def __init__(self, x, y):
-        self.dimension = 10
+        self.dimension = 13
         super().__init__(x, y)
 
     def render(self, screen):

@@ -6,6 +6,8 @@ from player import Player
 from ghost import Ghost
 from bonus import Bonus
 
+INITIAL_PLAYER_LIVES = 3
+
 def render_ghosts(ghosts, screen):
     for ghost in ghosts:
         ghost.render(screen)
@@ -31,6 +33,10 @@ def create_ghosts(number):
         b = random.randint(0, 255)
         ghosts.append(Ghost(ui.SCREEN_HEIGHT / 2, ui.SCREEN_WIDTH /2, (r, g, b)))
     return ghosts
+
+def should_add_ghost(points, number_of_ghosts):
+    return number_of_ghosts <= int(points / 200)
+
 
 def check_player_position(walls, player):
         if player.x < 0:

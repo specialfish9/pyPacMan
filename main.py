@@ -22,7 +22,7 @@ def main():
 
     # init scoreboard
     g_points = 0
-    g_lives = 3
+    g_lives = engine.INITIAL_PLAYER_LIVES 
     scoreboard = Scoreboard(g_points, g_lives)
 
     # init ghosts and bonus
@@ -62,6 +62,10 @@ def main():
                 while(True):
                     a = 1
 
+        if engine.should_add_ghost(g_points, len(ghosts)):
+            new_ghost = engine.create_ghosts(1)
+            for g in new_ghost:
+                ghosts.append(g)
         # Update score
         g_points += engine.check_bonus(bonus, player)
         print("POINTS: " + str(g_points))

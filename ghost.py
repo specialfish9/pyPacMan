@@ -13,7 +13,7 @@ class Ghost(Sprite):
 
     def __init__(self, x, y, color):
         self.color = color
-        self.dimension = 10
+        self.dimension = 15
         self.direction = random.randint(0, 3)
         super().__init__(x=x, y=y)
 
