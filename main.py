@@ -6,18 +6,26 @@ import ui as ui
 from player import Player
 from ghost import Ghost
 from bonus import Bonus
+from scoreboard import Scoreboard
 
 
 def main():
     pygame.init()
     screen = ui.init()
+    pygame.font.init()
+    game_font = pygame.font.SysFont('Comic Sans MS', 30)
     running = True
-    
-    g_points = 0
 
+    # initial player x and y
     px, py = engine.init_player();
     player = Player(px, py)
 
+    # init scoreboard
+    g_points = 0
+    g_lives = 3
+    scoreboard = Scoreboard(g_points, g_lives)
+
+    # init ghosts and bonus
     ghosts = engine.create_ghosts(4)
     bonus = engine.init_bonus()
 
@@ -46,11 +54,20 @@ def main():
         #check_player_position(player=player, walls=walls)
 
         if engine.check_collision(player, ghosts):
-            print("MORTO")
-            while(True):
-                a =1
+            g_lives -= 1
+            player.jumpTo(px, py)
+            scoreboard.set_lives(g_lives)
+            if g_lives == 0: 
+                print("MORTO")
+                while(True):
+                    a = 1
+
+        # Update score
         g_points += engine.check_bonus(bonus, player)
         print("POINTS: " + str(g_points))
+        scoreboard.set_points(g_points)
+        scoreboard.render(screen, game_font)
+
         pygame.display.flip()
 
     pygame.quit()    

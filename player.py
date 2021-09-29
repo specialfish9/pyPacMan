@@ -26,6 +26,10 @@ class Player(Sprite):
                 return False
         return True
 
+    def jumpTo(self, x, y):
+        self.x = x
+        self.y = y
+
     def moveUpSafe(self, walls):
         if self.__isLecitMove(0, -(self.STEP), walls):
             self.moveUp()
